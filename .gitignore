@@ -1,0 +1,8 @@
+.idea/
+/LOGIC/bin/
+/LOGIC/obj/
+/DAL/bin/
+/DAL/obj/
+.vs/
+/AutoService/bin/
+/AutoService/obj/
