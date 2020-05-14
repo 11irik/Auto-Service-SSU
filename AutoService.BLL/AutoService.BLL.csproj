@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AutoService.DAL\AutoService.DAL.csproj" />
+    <ProjectReference Include="..\IAutoService.BLL\IAutoService.BLL.csproj" />
+    <ProjectReference Include="..\IAutoService.DAL\IAutoService.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
