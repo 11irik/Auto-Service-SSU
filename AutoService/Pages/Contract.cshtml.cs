@@ -7,17 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AutoService.Pages
 {
-    public class IndexModel : PageModel
+    public class ContractModel : PageModel
     {
         public void OnGet()
         {
 
-        }
-
-        public string test()
-        {
-            DAL.DalConfiguration d = new DAL.DalConfiguration();
-            return d.sqlConnectionString;
         }
     }
 }
