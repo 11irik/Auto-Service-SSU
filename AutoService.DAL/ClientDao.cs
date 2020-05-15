@@ -10,7 +10,13 @@ namespace AutoService.DAL
 {
     public class ClientDao : IClientDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public ClientDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
+
 
         public Client Create(string name, string lastName, string phoneNumber)
         {
@@ -26,13 +32,13 @@ namespace AutoService.DAL
                 cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
-                
+
                 sql = "select * from client where phone_number = @phoneNumber";
                 cmd = new SqlCommand(sql, _connection);
                 cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                 var reader = cmd.ExecuteReader();
-                
-                
+
+
                 if (reader.Read())
                 {
                     Client client = new Client()
@@ -44,8 +50,10 @@ namespace AutoService.DAL
                     };
                     return client;
                 }
+                
                 throw new Exception("Phone number is already registered");
             }
+
             //todo check exception
         }
 
@@ -70,6 +78,7 @@ namespace AutoService.DAL
                     };
                     return client;
                 }
+
                 throw new Exception("Not found");
             }
         }
@@ -99,6 +108,7 @@ namespace AutoService.DAL
                     result.Add(client);
                 }
             }
+
             return result.AsEnumerable();
         }
 

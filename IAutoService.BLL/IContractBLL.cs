@@ -8,6 +8,8 @@ namespace IAutoService.BLL
     {
         Contract Create(long carId, DateTime startDate);
         IEnumerable<Contract> GetAll();
+        IEnumerable<Contract> GetAllByPhone(string phone);
+        
         int Delete(long contractId);
     }
 }

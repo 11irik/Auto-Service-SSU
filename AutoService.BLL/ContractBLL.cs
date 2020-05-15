@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AutoService.DAL;
 using IAutoService.BLL;
@@ -10,7 +11,7 @@ namespace AutoService.BLL
     public class ContractBLL : IContractBLL
     {
         private IContractDao _dao;
-
+        
         public ContractBLL()
         {
             _dao = new ContractDao();
@@ -24,6 +25,11 @@ namespace AutoService.BLL
         public IEnumerable<Contract> GetAll()
         {
             return _dao.GetAll();
+        }
+
+        public IEnumerable<Contract> GetAllByPhone(string phone)
+        {
+            return _dao.GetAllByPhone(phone);
         }
 
         public int Delete(long contractId)

@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class CarDao : ICarDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public CarDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
 
         public Car Create(long clientId, string number)
         {

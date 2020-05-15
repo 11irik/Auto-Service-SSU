@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class ServiceCoefficientDao : IServiceCoefficientDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public ServiceCoefficientDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
         
         public ServiceCoefficient Create(string name, double coefficient)
         {

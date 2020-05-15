@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class PartManufacturerDao : IPartManufacturerDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public PartManufacturerDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
 
         public PartManufacturer Create(string name)
         {

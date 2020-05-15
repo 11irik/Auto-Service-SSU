@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class EmployeeDao : IEmployeeDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public EmployeeDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
         
         public Employee Create(string name, string lastName, double salary)
         {

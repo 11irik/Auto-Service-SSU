@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class CarPartDao : ICarPartDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public CarPartDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
         
         public CarPart Create(string name, long manufacturerId, double price, int stock)
         {

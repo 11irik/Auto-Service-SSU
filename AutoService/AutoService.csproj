@@ -16,7 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AutoService.BLL\AutoService.BLL.csproj" />
     <ProjectReference Include="..\AutoService.DAL\AutoService.DAL.csproj" />
+    <ProjectReference Include="..\IAutoService.BLL\IAutoService.BLL.csproj" />
     <ProjectReference Include="..\LOGIC\LOGIC.csproj" />
   </ItemGroup>
 

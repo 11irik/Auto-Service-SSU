@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class ServiceDao : IServiceDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public ServiceDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
         
         public Service Create(string name, double price)
         {

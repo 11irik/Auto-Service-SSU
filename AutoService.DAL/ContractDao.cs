@@ -10,7 +10,12 @@ namespace AutoService.DAL
 {
     public class ContractDao : IContractDao
     {
-        private SqlConnection _connection = DbConnection.GetSqlConnection();
+        private SqlConnection _connection;
+
+        public ContractDao()
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+        }
         
         public Contract Create(long carId, DateTime startDate)
         {
@@ -32,7 +37,6 @@ namespace AutoService.DAL
                 cmd.Parameters.AddWithValue("@startDate", startDate);
                 var reader = cmd.ExecuteReader();
                 
-                
                 if (reader.Read())
                 {
                     Contract contract = new Contract()
@@ -45,6 +49,35 @@ namespace AutoService.DAL
                 }
                 throw new Exception("Not found");
             }
+        }
+
+        public IEnumerable<Contract> GetAllByPhone(string phoneNumber)
+        {
+            var result = new List<Contract>();
+            using (_connection)
+            {
+                _connection.Open();
+
+                string sql =
+                    "select * from contract inner join car c on contract.car_id = c.id inner join client c2 on c.client_id = c2.id where c2.phone_number = @phoneNumber";
+                SqlCommand cmd = new SqlCommand(sql, _connection);
+                cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                cmd.CommandType = CommandType.Text;
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Contract contract = new Contract()
+                    {
+                        ContractId = (long) reader["id"],
+                        CarId = (long) reader["car_id"],
+                        StartDate = (DateTime) reader["start_date"],
+                        EndDate = (DateTime) reader["end_date"]
+                    };
+                    result.Add(contract);
+                }
+            }
+            return result.AsEnumerable();
         }
 
         public IEnumerable<Contract> GetAll()
@@ -66,8 +99,8 @@ namespace AutoService.DAL
                     {
                         ContractId = (long) reader["id"],
                         CarId = (long) reader["car_id"],
-                        StartDate = (DateTime) reader["start_date"],
-                        EndDate = (DateTime) reader["end_date"]
+                        // StartDate = (DateTime) reader["start_date"],
+                        // EndDate = (DateTime) reader["end_date"]
                     };
                     result.Add(contract);
                 }
