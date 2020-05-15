@@ -9,5 +9,6 @@ namespace IAutoService.DAL
         ContractService Create(long contractId, long serviceId, long coefId, DateTime date);
         IEnumerable<ContractService> GetAllByContract(long contractId);
         int Delete(long contractId, long serviceId);
+        double GetContractPrice(long id);
     }
 }

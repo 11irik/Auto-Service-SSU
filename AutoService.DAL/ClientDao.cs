@@ -59,6 +59,8 @@ namespace AutoService.DAL
 
         public Client Get(string phoneNumber)
         {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
             using (_connection)
             {
                 _connection.Open();
@@ -66,6 +68,34 @@ namespace AutoService.DAL
                 string sql = "select * from client where phone_number = @phoneNumber";
                 SqlCommand cmd = new SqlCommand(sql, _connection);
                 cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    Client client = new Client()
+                    {
+                        Id = (long) reader["id"],
+                        Name = (string) reader["name"],
+                        LastName = (string) reader["last_name"],
+                        PhoneNumber = (string) reader["phone_number"]
+                    };
+                    return client;
+                }
+
+                throw new Exception("Not found");
+            }
+        }
+
+        public Client Get(long id)
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
+            using (_connection)
+            {
+                _connection.Open();
+
+                string sql = "select * from client where id  = @id";
+                SqlCommand cmd = new SqlCommand(sql, _connection);
+                cmd.Parameters.AddWithValue("@id", id);
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {

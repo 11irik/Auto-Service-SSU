@@ -56,6 +56,8 @@ namespace AutoService.DAL
 
         public IEnumerable<ContractService> GetAllByContract(long contractId)
         {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
             var result = new List<ContractService>();
 
             using (_connection)
@@ -67,14 +69,23 @@ namespace AutoService.DAL
                 cmd.Parameters.AddWithValue("@contractId", contractId);
                 var reader = cmd.ExecuteReader();
                 
-                if (reader.Read())
+                while (reader.Read())
                 {
+                    DateTime d = DateTime.MinValue;
+                    try
+                    {
+                        d = (DateTime) reader["date_of_service"];
+                    }
+                    catch (Exception e)
+                    {
+                    }
+
                     ContractService service = new ContractService()
                     {
                         ServiceId = (long) reader["service_id"],
                         Price = (double) reader["price"],
                         CoefId = (long) reader["coefficient_id"],
-                        Date = (DateTime) reader["date_of_service"],
+                        Date = d,
                         Name = (string) reader["name"],
                         Coef = (double) reader["coefficient"]
                     };
@@ -97,6 +108,27 @@ namespace AutoService.DAL
                 cmd.Parameters.AddWithValue("@serviceId", serviceId);
                 return cmd.ExecuteNonQuery();
             }
+        }
+
+        public double GetContractPrice(long id)
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
+            double sum = 0;
+            using (_connection)
+            {
+                _connection.Open();
+
+                
+                SqlCommand cmd = new SqlCommand("ServicesSum", _connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                
+                cmd.Parameters.AddWithValue("@ContractId", id);
+                cmd.Parameters.AddWithValue("@Sum", sum);
+                cmd.ExecuteNonQuery();
+            }
+
+            return sum;
         }
     }
 }

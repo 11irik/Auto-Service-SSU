@@ -1,4 +1,6 @@
-﻿namespace IAutoService.DAL.Entities
+﻿using System;
+
+namespace IAutoService.DAL.Entities
 {
     public class Car
     {
@@ -6,7 +8,7 @@
         private long _clientId;
         private string _brand;
         private string _number;
-        private int _year;
+        private Int16 _year;
 
         public Car()
         {
@@ -36,7 +38,7 @@
             set => _number = value;
         }
 
-        public int Year
+        public Int16 Year
         {
             get => _year;
             set => _year = value;
