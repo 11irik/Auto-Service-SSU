@@ -8,31 +8,43 @@ namespace AutoService.BLL
 {
     public class ClientBLL : IClientBLL
     {
-        private IClientDao _dao;
+        private IClientDao _clientDao;
+        private ICarDao _carDao;
 
         public ClientBLL()
         {
-            _dao = new ClientDao();
+            _clientDao = new ClientDao();
+            _carDao = new CarDao();
         }
         
         public Client Create(string name, string lastName, string phoneNumber)
         {
-            return _dao.Create(name, lastName, phoneNumber);
+            return _clientDao.Create(name, lastName, phoneNumber);
         }
 
         public Client Get(string phoneNumber)
         {
-            return _dao.Get(phoneNumber);
+            return _clientDao.Get(phoneNumber);
+        }
+        
+        public Client Get(long id)
+        {
+            return _clientDao.Get(id);
         }
 
         public IEnumerable<Client> GetAll()
         {
-            return _dao.GetAll();
+            return _clientDao.GetAll();
+        }
+
+        public IEnumerable<Car> GetClientCars(long clientId)
+        {
+            return _carDao.GetAllByClient(clientId);
         }
 
         public int Delete(string phoneNumber)
         {
-            return _dao.Delete(phoneNumber);
+            return _clientDao.Delete(phoneNumber);
         }
     }
 }

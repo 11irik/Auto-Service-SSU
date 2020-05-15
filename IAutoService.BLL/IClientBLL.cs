@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using IAutoService.DAL.Entities;
 
 namespace IAutoService.BLL
@@ -7,7 +8,10 @@ namespace IAutoService.BLL
     {
         Client Create(string name, string lastName, string phoneNumber);
         Client Get(string phoneNumber);
+        Client Get(long id);
+
         IEnumerable<Client> GetAll();
+        IEnumerable<Car> GetClientCars(long clientId);
         int Delete(string phoneNumber);
     }
 }
