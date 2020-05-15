@@ -8,6 +8,7 @@ namespace IAutoService.DAL.Entities
         private long _carId;
         private DateTime _startDate;
         private DateTime _endDate;
+        
 
         public Contract()
         {

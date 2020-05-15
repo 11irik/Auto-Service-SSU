@@ -8,31 +8,36 @@ namespace AutoService.BLL
 {
     public class CarBLL : ICarBLL
     {
-        private ICarDao _dao;
+        private ICarDao _carDao;
         //todo add exception handling
         public CarBLL()
         {
-            _dao = new CarDao();
+            _carDao = new CarDao();
         }
         
-        public Car Create(long clientId, string number)
+        public Car Create(long clientId, string number, string brand, int manufacturerYear)
         {
-            return _dao.Create(clientId, number);
+            return _carDao.Create(clientId, number, brand, manufacturerYear);
         }
 
         public Car Get(string number)
         {
-            return _dao.Get(number);
+            return _carDao.Get(number);
+        }
+
+        public Car Get(long id)
+        {
+            return _carDao.Get(id);
         }
 
         public IEnumerable<Car> GetAll()
         {
-            return _dao.GetAll();
+            return _carDao.GetAll();
         }
 
         public int Delete(string number)
         {
-            return _dao.Delete(number);
+            return _carDao.Delete(number);
         }
     }
 }

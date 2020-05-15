@@ -10,31 +10,67 @@ namespace AutoService.BLL
 {
     public class ContractBLL : IContractBLL
     {
-        private IContractDao _dao;
+        private IContractDao _contractDao;
+        private IContractServicesDao _contractServicesDao;
         
         public ContractBLL()
         {
-            _dao = new ContractDao();
+            _contractDao = new ContractDao();
+            _contractServicesDao = new ContractServicesDao();
         }
         
         public Contract Create(long carId, DateTime startDate)
         {
-            return _dao.Create(carId, startDate);
+            return _contractDao.Create(carId, startDate);
         }
 
+        public ContractService AddService(long contractId, long serviceId, long coefId, DateTime date)
+        {
+            return _contractServicesDao.Create(contractId, serviceId, coefId, date);
+        }
+
+        public Contract UpdateDate(long contractId, DateTime startDate, DateTime endDate)
+        {
+            return _contractDao.Update(contractId, startDate, endDate);
+        }
+
+        public double GetContractPrice(long id)
+        {
+            return _contractServicesDao.GetContractPrice(id);
+        }
+
+        public IEnumerable<ContractService> GetContractServices(long contractId)
+        {
+            return _contractServicesDao.GetAllByContract(contractId);
+        }
+        public int DeleteContractService(long contractId, long serviceId)
+        {
+            return _contractServicesDao.Delete(contractId, serviceId);
+        }
+        
         public IEnumerable<Contract> GetAll()
         {
-            return _dao.GetAll();
+            return _contractDao.GetAll();
+        }
+        
+        public IEnumerable<Contract> GetAllOpened()
+        {
+            return _contractDao.GetAllOpened();
+        }
+
+        public IEnumerable<Contract> GetById(long id)
+        {
+            return _contractDao.GetById(id);
         }
 
         public IEnumerable<Contract> GetAllByPhone(string phone)
         {
-            return _dao.GetAllByPhone(phone);
+            return _contractDao.GetAllByPhone(phone);
         }
 
         public int Delete(long contractId)
         {
-            return _dao.Delete(contractId);
+            return _contractDao.Delete(contractId);
         }
     }
 }
