@@ -12,7 +12,7 @@
 </head>
 
 <div>
-    ФИО Клиента: @Model._id
+    ФИО Клиента: @Model._lastName @Model._name
 </div>
 
 
@@ -26,10 +26,10 @@
 
 
 <div class="collapse" id="collapseExample">
-   <form asp-action="AddCar" method="post">
-       <input type="text" id="brandName" name="brandName"/>
-       <input type="text" id="manufacturerYear" name="manufacturerYear"/>
-       <input type="text" id="number" name="number"/>
+   <form asp-action="AddCar" class = "padding" method="post">
+       Марка: <input type="text" id="brandName" name="brandName"/>
+       Номер: <input type="text" id="number" name="number"/>
+       Год выпуска: <input type="text" id="manufacturerYear" name="manufacturerYear"/>
        <input type="hidden" id="clientId" name="clientId" value="@Model._id"/>
        <button type="submit">Добавить</button>
    </form>
@@ -68,8 +68,11 @@
 
     </div>
     <style>
-     .table-container {
-             height: 600px;
-     }
-     </style>
+        .table-container {
+                height: 600px;
+        }
+        .padding {
+            padding: 10px 10px 10px 10px;
+        }
+        </style>
 </div>

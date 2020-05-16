@@ -54,8 +54,9 @@ namespace AutoService.PL
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute(
-                    name: "Contract",
-                    pattern: "{controller=Contract}/{action=Index}/{id?}");
+                    name: "default1",
+                    pattern: "Admin/{action}/{id?}",
+                    defaults: new { controller = "Admin" });
             });
         }
     }

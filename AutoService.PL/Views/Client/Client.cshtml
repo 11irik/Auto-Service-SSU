@@ -9,6 +9,24 @@
 }
 <h1>@ViewData["Title"]</h1>
 
+<div class="btn-group padding" role="group" aria-label="Basic example">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Добавить клиента
+    </button>
+
+</div>
+
+<div class="collapse" id="collapseExample">
+
+    <form asp-action="AddClient" class="padding" method="post">
+        Телефон: <input type="text" id="phoneNumber" name="phoneNumber"/>
+        Фамилия: <input type="text" id="lastName" name="lastName"/>
+        Имя: <input type="text" id="name" name="name"/>
+        <button type="submit">Добавить</button>
+    </form>
+
+</div>
+
 
 <form asp-controller="Client" asp-action="Index" method="get">
     <p>
@@ -48,6 +66,9 @@
     <style>
     .table-container {
             height: 600px;
+    }
+    .padding {
+        padding: 10px 10px 10px 10px;
     }
     </style>
 </div>

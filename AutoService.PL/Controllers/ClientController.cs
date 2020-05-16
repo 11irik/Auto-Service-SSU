@@ -85,6 +85,13 @@ namespace AutoService.PL.Controllers
 
             return RedirectToAction("Details", new {id = id});
         }
+        
+        [HttpPost]
+        public IActionResult AddClient(string name, string lastName, string phoneNumber)
+        {
+            _clientBll.Create(name, lastName, phoneNumber);
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public IActionResult CreateContract(string carId)
