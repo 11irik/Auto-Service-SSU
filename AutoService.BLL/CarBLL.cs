@@ -30,6 +30,11 @@ namespace AutoService.BLL
             return _carDao.Get(id);
         }
 
+        public Car Update(long carId, string number, string brand, int manufacturerYear)
+        {
+            return _carDao.Update(carId, number, brand, manufacturerYear);
+        }
+
         public IEnumerable<Car> GetAll()
         {
             return _carDao.GetAll();

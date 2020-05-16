@@ -32,6 +32,11 @@ namespace AutoService.BLL
             return _clientDao.Get(id);
         }
 
+        public Client Update(long id, string name, string lastName, string phoneNumber)
+        {
+            return _clientDao.Update(id, name, lastName, phoneNumber);
+        }
+
         public IEnumerable<Client> GetAll()
         {
             return _clientDao.GetAll();
