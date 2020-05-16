@@ -1,0 +1,69 @@
+﻿@using System.Collections
+@using IAutoService.DAL.Entities
+
+@{
+    Layout = "_CustomLayout";
+}
+
+@{
+    ViewData["Title"] = "Клиенты";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<form asp-controller="Admin" asp-action="Client" method="get">
+    <p>
+        Телефон клиента: <input type="text" name="searchString"/>
+        <input type="submit" value="Filter"/>
+    </p>
+</form>
+
+<div class="overflow-auto">
+    <div class="table-container">
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th scope="col">Телефон клиента</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Имя</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (Client x in (IEnumerable) ViewData["Clients"])
+            {
+                <tr>
+                    <form asp-action="UpdateClient" method="post">
+                        <input type="hidden" id="upClientId" name="upClientId" value="@x.Id"/>
+                        <td>
+                            <input class="form-control form-control-sm" type="text" id="upClientPhone" name="upClientPhone" placeholder=".form-control-sm"  value=@x.PhoneNumber>
+                        </td>
+                        <td>
+                            <input class="form-control form-control-sm" type="text" id="upClientLastName" name="upClientLastName" placeholder=".form-control-sm" value=@x.LastName>
+                        </td>
+                        <td>
+                            <input class="form-control form-control-sm" type="text" id="upClientName" name="upClientName" placeholder=".form-control-sm" value=@x.Name>
+                        </td>
+                        <td>
+                            <button type="submit">Обновить</button>
+                        </td>
+                    </form>
+
+                    <td>
+                        <a type="button" asp-controller="Client" asp-action="Details" asp-route-id="@x.Id">Детали</a>
+                    </td>
+                    
+                    <td>
+                        <form asp-action="DeleteClient" method="post">
+                            <input type="hidden" id="clientId" name="clientId" value="@x.Id"/>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+    </div>
+</div>

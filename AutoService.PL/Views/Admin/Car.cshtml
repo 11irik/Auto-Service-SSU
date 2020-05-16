@@ -1,0 +1,67 @@
+﻿@using System.Collections
+@using IAutoService.DAL.Entities
+
+@{
+    Layout = "_CustomLayout";
+}
+
+@{
+    ViewData["Title"] = "Автомобили";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+
+    <form asp-controller="Admin" asp-action="Car" method="get">
+        <p>
+            Телефон клиента: <input type="text" name="searchString"/>
+            <input type="submit" value="Filter"/>
+        </p>
+    </form>
+
+    <div class="overflow-auto">
+        <div class="table-container">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Номер</th>
+                    <th scope="col">Марка</th>
+                    <th scope="col">Год выпуска</th>
+                    <th></th>
+                    <th></th>
+
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (Car x in (IEnumerable) ViewData["Cars"])
+                {
+                    <tr>
+                        <form asp-action="UpdateCar" method="post">
+                            <input type="hidden" id="upCarId" name="upCarId" value="@x.Id"/>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" id="upCarNumber" name="upCarNumber" placeholder=".form-control-sm"  value=@x.Number>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" id="upCarBrand" name="upCarBrand" placeholder=".form-control-sm" value=@x.Brand>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm" type="text" id="upCarYear" name="upCarYear" placeholder=".form-control-sm" value=@x.Year>
+                            </td>
+                            <td>
+                                <button type="submit">Обновить</button>
+                            </td>
+                        </form>
+
+                        <td>
+                            <form asp-action="DeleteCar" method="post">
+                                <input type="hidden" id="carId" name="carId" value="@x.Id"/>
+                                <button type="submit" class="btn btn-danger">Удалить</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>

@@ -9,8 +9,8 @@ namespace IAutoService.BLL
         Service Create(string name, double price);
         IEnumerable<Service> GetAll();
         int Delete(long id);
-        ServiceEmployee WriteEmployee(long serviceId, long employeeId);
-        int WriteOutEmployee(long serviceId, long employeeId);
-        IEnumerable<Employee> GetAllByService(long serviceId);
+        // ServiceEmployee WriteEmployee(long serviceId, long employeeId);
+        // int WriteOutEmployee(long serviceId, long employeeId);
+        // IEnumerable<Employee> GetAllByService(long serviceId);
     }
 }

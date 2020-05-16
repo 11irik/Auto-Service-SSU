@@ -1,0 +1,68 @@
+﻿@using System.Collections
+@using IAutoService.DAL.Entities
+
+@{
+    Layout = "_CustomLayout";
+}
+
+@{
+    ViewData["Title"] = "Услуги";
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<div class="btn-group padding" role="group" aria-label="Basic example">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse6" aria-expanded="false" aria-controls="collapseExample">
+                Добавить услугу
+            </button>
+        
+        </div>
+        
+        <div class="collapse padding" id="collapse6">
+        
+            <form asp-action="AddService" class="padding" method="post">
+                Название: <input type="text" id="servName" name="servName"/>
+                Стоимость: <input type="text" id="servPrice" name="servPrice"/>
+               
+                <button type="submit">Добавить</button>
+            </form>
+        
+        </div>
+
+
+    <div class="overflow-auto">
+        <div class="table-container">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Стоимость</th>
+
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (Service x in (IEnumerable) ViewData["Services"])
+                {
+                    <tr>
+                        <td>@x.Name</td>
+                        <td>@x.Price</td>
+                        <td>
+                        <form asp-action="DeleteService" method="post">
+                            <input type="hidden" id="servId" name="servId" value="@x.Id"/>
+                            <button class="btn btn-danger" type="submit">Удалить</button>
+                        </form>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+<style>
+.padding {
+        padding: 10px 10px 10px 10px;
+    }
+</style>
