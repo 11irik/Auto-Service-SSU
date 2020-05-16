@@ -20,6 +20,8 @@ namespace AutoService.DAL
 
         public Client Create(string name, string lastName, string phoneNumber)
         {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
             using (_connection)
             {
                 _connection.Open();
@@ -142,8 +144,48 @@ namespace AutoService.DAL
             return result.AsEnumerable();
         }
 
+        public Client Update(long id, string name, string lastName, string phoneNumber)
+        {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
+            using (_connection)
+            {
+                _connection.Open();
+
+                string sql =
+                    "update client set name = @name, last_name = @lastName, phone_number = @phoneNumber where id = @id";
+                SqlCommand cmd = new SqlCommand(sql, _connection);
+                cmd.Parameters.AddWithValue("@name", name);
+                cmd.Parameters.AddWithValue("@lastName", lastName);
+                cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                cmd.Parameters.AddWithValue("@id", id);
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+
+                
+                sql = "select * from client where phone_number = @phoneNumber";
+                cmd = new SqlCommand(sql, _connection);
+                cmd.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                var reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    Client client = new Client()
+                    {
+                        Id = (long) reader["id"],
+                        Name = (string) reader["name"],
+                        LastName = (string) reader["last_name"],
+                        PhoneNumber = (string) reader["phone_number"],
+                    };
+                    return client;
+                }
+                
+                throw new Exception("Phone number is already registered");
+            }
+        }
+
         public int Delete(string phoneNumber)
         {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
             using (_connection)
             {
                 _connection.Open();

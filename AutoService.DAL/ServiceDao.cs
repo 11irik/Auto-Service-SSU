@@ -22,32 +22,37 @@ namespace AutoService.DAL
             using (_connection)
             {
                 _connection.Open();
-
-                string sql =
-                    "insert into service (name, price) values (@name, @price)";
-                SqlCommand cmd = new SqlCommand(sql, _connection);
-                cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@price", price);
-                cmd.CommandType = CommandType.Text;
-                cmd.ExecuteNonQuery();
-
-                sql = "select * from service where name = @name";
-                cmd = new SqlCommand(sql, _connection);
-                cmd.Parameters.AddWithValue("@name", name);
-                var reader = cmd.ExecuteReader();
-                
-                if (reader.Read())
+                try
                 {
-                    Service service = new Service()
-                    {
-                        Id = (long) reader["id"],
-                        Name = (string) reader["name"],
-                        Price = (double) reader["price"]
-                    };
-                    return service;
-                }
+                    string sql =
+                        "insert into service_price (name, price) values (@name, @price)";
+                    SqlCommand cmd = new SqlCommand(sql, _connection);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@price", price);
+                    cmd.CommandType = CommandType.Text;
+                    cmd.ExecuteNonQuery();
 
-                throw new Exception("Service with this name is already registered");
+                    sql = "select * from service where name = @name";
+                    cmd = new SqlCommand(sql, _connection);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    var reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Service service = new Service()
+                        {
+                            Id = (long) reader["id"],
+                            Name = (string) reader["name"],
+                            Price = (double) reader["price"]
+                        };
+                        return service;
+                    }
+                }
+                catch (Exception e)
+                {
+                    
+                }
+                return new Service();
             }
         }
 

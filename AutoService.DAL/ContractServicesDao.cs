@@ -124,8 +124,10 @@ namespace AutoService.DAL
                 cmd.CommandType = CommandType.StoredProcedure;
                 
                 cmd.Parameters.AddWithValue("@ContractId", id);
-                cmd.Parameters.AddWithValue("@Sum", sum);
+                cmd.Parameters.AddWithValue("@Sum", sum).Direction = ParameterDirection.Output;
                 cmd.ExecuteNonQuery();
+
+                sum = Convert.ToDouble(cmd.Parameters["@Sum"].Value);
             }
 
             return sum;

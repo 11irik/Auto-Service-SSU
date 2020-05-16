@@ -100,7 +100,7 @@ namespace AutoService.DAL
                 _connection.Open();
 
                 string sql =
-                    "select * from contract";
+                    "select * from contract where end_date >= '0001-01-01'";
                 SqlCommand cmd = new SqlCommand(sql, _connection);
                 cmd.CommandType = CommandType.Text;
                 var reader = cmd.ExecuteReader();
@@ -214,17 +214,27 @@ namespace AutoService.DAL
             _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
             using (_connection)
             {
+                string sql;
+                SqlCommand cmd;
                 _connection.Open();
+                if (endDate < DateTime.Parse("2000-01-01"))
+                {
+                    sql = "update contract set end_date = null where id = @id";
+                    cmd = new SqlCommand(sql, _connection);
+                    cmd.Parameters.AddWithValue("@id", contractId);
+                }
+                else
+                {
+                    sql = "update contract set start_date = @startDate, end_date = @endDate where id = @id";
+                    cmd = new SqlCommand(sql, _connection);
+                    cmd.Parameters.AddWithValue("@id", contractId);
+                    cmd.Parameters.AddWithValue("@startDate", startDate);
+                    cmd.Parameters.AddWithValue("@endDate", endDate); 
+                }
 
-                string sql =
-                    "update contract set start_date = @startDate, end_date = @endDate where id = @id";
-                SqlCommand cmd = new SqlCommand(sql, _connection);
-                cmd.Parameters.AddWithValue("@id", contractId);
-                cmd.Parameters.AddWithValue("@startDate", startDate);
-                cmd.Parameters.AddWithValue("@endDate", endDate);
                 cmd.CommandType = CommandType.Text;
                 cmd.ExecuteNonQuery();
-               
+                
                 sql = "select * from contract where id = @id";
                 cmd = new SqlCommand(sql, _connection);
                 cmd.Parameters.AddWithValue("@id", contractId);

@@ -45,7 +45,9 @@ namespace AutoService.DAL
                     {
                         Id = (long) reader["id"],
                         ClientId = (long) reader["client_id"],
-                        Number = (string) reader["number"]
+                        Number = (string) reader["number"],
+                        Brand = (string) reader["brand"],
+                        Year = (Int16) reader["manufacturer_year"]
                     };
                     return car;
                 }
@@ -74,7 +76,9 @@ namespace AutoService.DAL
                     {
                         Id = (long) reader["id"],
                         ClientId = (long) reader["client_id"],
-                        Number = (string) reader["number"]
+                        Number = (string) reader["number"],
+                        Brand = (string) reader["brand"],
+                        Year = (Int16) reader["manufacturer_year"]
                     };
                     return car;
                 }
@@ -103,11 +107,50 @@ namespace AutoService.DAL
                         Id = (long) reader["id"],
                         ClientId = (long) reader["client_id"],
                         Number = (string) reader["number"],
-                        Brand = (string) reader["brand"]
+                        Brand = (string) reader["brand"],
+                        Year = (Int16) reader["manufacturer_year"]
                     };
                     return car;
                 }
                 throw new Exception("Not found");
+            }
+        }
+
+        public Car Update(long carId, string number, string brand, int manufacturerYear)
+        {
+            using (_connection)
+            {
+                _connection.Open();
+
+                string sql =
+                    "update car set number = @number, brand = @brand, manufacturer_year = @manufacturerYear where id = @id";
+                SqlCommand cmd = new SqlCommand(sql, _connection);
+                cmd.Parameters.AddWithValue("@id", carId);
+                cmd.Parameters.AddWithValue("@number", number);
+                cmd.Parameters.AddWithValue("@brand", brand);
+                cmd.Parameters.AddWithValue("@manufacturerYear", manufacturerYear);
+                cmd.CommandType = CommandType.Text;
+                cmd.ExecuteNonQuery();
+                
+                sql = "select * from car where number = @number";
+                cmd = new SqlCommand(sql, _connection);
+                cmd.Parameters.AddWithValue("@number", number);
+                var reader = cmd.ExecuteReader();
+                
+                
+                if (reader.Read())
+                {
+                    Car car = new Car()
+                    {
+                        Id = (long) reader["id"],
+                        ClientId = (long) reader["client_id"],
+                        Number = (string) reader["number"],
+                        Brand = (string) reader["brand"],
+                        Year = (Int16) reader["manufacturer_year"]
+                    };
+                    return car;
+                }
+                throw new Exception("Car with this number is already registered");
             }
         }
 
@@ -130,7 +173,9 @@ namespace AutoService.DAL
                     {
                         Id = (long) reader["id"],
                         ClientId = (long) reader["client_id"],
-                        Number = (string) reader["number"]
+                        Number = (string) reader["number"],
+                        Brand = (string) reader["brand"],
+                        Year = (Int16) reader["manufacturer_year"]
                     };
                     result.Add(car);
                 }
@@ -170,6 +215,8 @@ namespace AutoService.DAL
 
         public int Delete(string number)
         {
+            _connection = new SqlConnection(DalConfiguration.GetSqlConnectionString());
+
             using (_connection)
             {
                 _connection.Open();
